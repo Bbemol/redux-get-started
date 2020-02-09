@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "global": "^4.4.0",
+    "local-web-server": "^3.0.7",
+    "redux": "^4.0.5",
+    "webserver.local": "^1.0.4"
+  }
+}
