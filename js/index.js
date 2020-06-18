@@ -1,8 +1,8 @@
 import store from "./store/index.js"
-import { addArticle, changeCheckboxState } from "./actions/index";
+import { addArticleAction, changeCheckboxState } from "./actions/index";
 const handleChangeCheckbox = () => {
-  console.log('checkbox changed')
-  if(store.getState().checkbox1 && store.getState().checkbox2){
+  console.log(store.getState())
+  if(store.getState().checkboxes.checkbox1 && store.getState().checkboxes.checkbox2){
     document.querySelector('.js-submit').disabled = false;
   } else {
     document.querySelector('.js-submit').disabled = true;
@@ -18,6 +18,9 @@ document.querySelector('#check1').addEventListener('click', () => {
 document.querySelector('#check2').addEventListener('click', () => {
   store.dispatch(changeCheckboxState({id: 2}))
 })
+document.querySelector('.js-addarticle').addEventListener('click', () => {
+  store.dispatch(addArticleAction({content:'Je suis l\'article'} ))
+})
 
 window.store = store;
-window.addArticle = addArticle;
+window.addArticle = addArticleAction;

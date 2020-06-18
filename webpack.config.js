@@ -4,6 +4,7 @@ const path = require("path");
 let config = {
   watch: true,
   entry: "./js/index.js",
+  devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, "./"),
     filename: "app.js"

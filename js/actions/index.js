@@ -1,7 +1,7 @@
 
 import { ADD_ARTICLE, UPDATE_CHECKBOX } from "../constants/action-types";
 
-export function addArticle(payload) {
+export function addArticleAction(payload) {
   return { type: ADD_ARTICLE, payload };
 }
 

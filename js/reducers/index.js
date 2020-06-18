@@ -1,30 +1,61 @@
 import { ADD_ARTICLE, UPDATE_CHECKBOX } from "../constants/action-types";
+import { combineReducers } from 'redux'
+
+/*
+InitialState will look like this:
 
 const initialState = {
   articles: [],
-  checkbox1: document.querySelector('#check1').checked,
-  checkbox2: document.querySelector('#check2').checked
+  checkboxes: {
+    checkbox1: document.querySelector('#check1').checked,
+    checkbox2: document.querySelector('#check2').checked
+  }
 };
 
-const maFunc = (payload) => {
-  console.log(payload)
-  
+*/
+
+function updateObject(oldObj, newObj) {
+  return Object.assign({}, oldObj, newObj)
 }
 
-function rootReducer(state = initialState, action) {
-  if (action.type === ADD_ARTICLE) {
-    maFunc(action.payload)
-    return Object.assign({}, state, {
-      articles: state.articles.concat(action.payload)
-    });
+function createReducer(initialState, handlers) {
+  return function reducer(state = initialState, action) {
+    if (handlers.hasOwnProperty(action.type)) {
+      return handlers[action.type](state, action)
+    } else {
+      return state
+    }
   }
-  if(action.type === UPDATE_CHECKBOX) {
-    const checkboxId = action.payload.id
-    const newState = {}
-    newState['checkbox'+checkboxId] = document.querySelector('#check'+checkboxId).checked
-    return Object.assign({}, state, newState)
-  }
-  return state;
 }
 
-export default rootReducer;
+function addArticle(articlesState, action) {
+  return articlesState.concat(action.payload)
+}
+
+function updateCheckbox(checkboxesState, action) {
+  const checkboxId = action.payload.id
+  const newState = {}
+  newState['checkbox'+checkboxId] = document.querySelector('#check'+checkboxId).checked
+  return updateObject(checkboxesState, newState)
+}
+
+const addArticleReducer = createReducer([], {
+  ADD_ARTICLE: addArticle
+})
+
+const updateCheckboxReducer = createReducer({
+    checkbox1: document.querySelector('#check1').checked,
+    checkbox2: document.querySelector('#check2').checked
+  },
+  {
+    UPDATE_CHECKBOX: updateCheckbox
+  }
+)
+
+const appReducer = combineReducers({
+  articles: addArticleReducer,
+  checkboxes: updateCheckboxReducer
+})
+
+export default appReducer;
+
